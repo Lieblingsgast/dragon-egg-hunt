@@ -32,7 +32,7 @@ Downloads Java 25 (only if it isn't installed), the Fabric server and Fabric API
 ./gradlew build
 ```
 
-The jar ends up in `build/libs/`. GitHub Actions builds every push; pushing a tag like `v1.0.0` (matching `mod_version` in `gradle.properties`) creates a release with the jar and the resource pack.
+The jar ends up in `build/libs/`. GitHub Actions builds every push. Publishing a GitHub release with a tag like `v1.0.0` (matching `mod_version` in `gradle.properties`) attaches the jar and the resource pack to it.
 
 ## Install
 
