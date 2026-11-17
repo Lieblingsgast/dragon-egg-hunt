@@ -1,0 +1,113 @@
+# Dragon Egg Hunt
+
+pickup:
+  # The egg can only be taken by a player who is alone in the zone around it,
+  # a sphere with this radius in blocks.
+  radius: 10
+  # How often that player has to click the egg to take it.
+  clicks: 20
+  # Progress is lost after this many seconds without a click, or as soon as someone else enters the zone.
+  reset-after-seconds: 3
+
+pulse:
+  # How often a placed egg reveals its direction in the locator bar.
+  interval-seconds: 900
+  # How long the direction stays visible.
+  duration-seconds: 5
+  # A quiet sound when a pulse starts (an eye of ender shattering, coming from the egg's direction),
+  # so players know to look at their locator bar.
+  sound: true
+  # A short line above the hotbar while the pulse is shown (messages.pulse-start).
+  message: true
+
+help:
+  # Every this many minutes, while the egg is in play, players get a short chat message explaining it
+  # (messages.help). Players who turned the egg off with /dragonegg off don't get it. 0 = off.
+  interval-minutes: 120
+
+display:
+  # Players within this many blocks of a placed egg see the zone and the status text above the egg.
+  info-radius: 25
+  # A particle line where the ground crosses the zone sphere.
+  # Players can hide the lines and the text for themselves with /dragonegg show-zone off,
+  # e.g. around their build.
+  zone-outline: true
+  # Horizontal particle rings that show how high the zone reaches, counted from the egg upwards (0 = off).
+  # Parts inside blocks or right above the ground are left out.
+  zone-height-rings: 3
+  # After someone clicks the egg or players hit each other in its zone, everyone near the egg sees the lines and
+  # the text for this many seconds, also players who turned them off with /dragonegg show-zone off. 0 = never.
+  zone-alert-seconds: 300
+  zone-color: "#A23BFF"
+  # The placed egg glows purple and can be seen through blocks, like the player carrying it.
+  # Shown to the same players as the lines (also hidden with /dragonegg show-zone off).
+  egg-glow: true
+  # Floating text above the egg: players in the zone, whether it can be taken, click progress.
+  # Only players within info-radius see it.
+  hologram: true
+  # Draw the text in front of blocks, so blocks around the egg never cut it off.
+  # Players within info-radius then also see it through walls and the ground.
+  hologram-through-blocks: true
+  # A dark box behind the text. Easier to read, but Minecraft then doesn't draw water or glass behind it.
+  hologram-background: false
+  # The player carrying the egg glows and can be seen through blocks, like with the glowing effect.
+  holder-glow: true
+  # Purple outline. Uses a scoreboard team, so players already in another team keep their own color.
+  holder-glow-purple: true
+  # Dot color for players without the resource pack.
+  color: "#9B59D9"
+  # Players without the resource pack see the dot blink between both colors during a pulse.
+  blink: true
+  blink-color: "#FFFFFF"
+
+resource-pack:
+  enabled: true
+  # embedded: the mod serves the pack itself from a small web server (needs one extra open TCP port).
+  # url: you upload config/dragonegghunt-pack.zip somewhere yourself and enter its direct download link.
+  mode: embedded
+  embedded:
+    bind-address: "0.0.0.0"
+    port: 8164
+    # Address players use to reach this server, e.g. play.example.com or your public IP.
+    public-address: ""
+  url: ""
+  # Kick players who decline the pack. When false, players without it see a colored dot instead of the egg icon.
+  required: false
+  prompt: "Shows the dragon egg as an egg icon in your locator bar."
+
+# QuickText format of Text Placeholder API: https://placeholders.pb4.eu/user/quicktext/
+# <newline> starts a new line. Words like <player> are filled in by the mod.
+messages:
+  hologram-title: "<light_purple><bold>Dragon Egg"
+  hologram-empty: "<gray>Nobody inside the ring"
+  hologram-alone: "<green><player> can take it<newline><gray>Click the egg <white><clicks></white> times"
+  hologram-crowded: "<red><players> players inside the ring<newline><gray>Only someone alone can take it"
+  hologram-progress: "<white><player></white> <gray>is taking it<newline><bar> <white><clicks>/<required>"
+  pickup-blocked: "<red>Only a player alone inside the ring can take the egg. Players in the zone: <players>"
+  pickup-broadcast: "<light_purple><player> has taken the dragon egg!"
+  pickup-holder: "<gray>You carry the dragon egg. Everyone can see you in the locator bar until you place it."
+  inventory-full: "<red>Your inventory is full."
+  no-containers: "<red>The dragon egg can't be stored."
+  no-drop: "<red>Place the egg instead of dropping it."
+  egg-in-dimension: "<light_purple>The dragon egg is in <dimension>."
+  pulse-start: "<light_purple>The dragon egg reveals its direction"
+  help: "<light_purple><bold>Dragon Egg</bold></light_purple><newline><gray>Whoever carries the dragon egg shows up in everyone's locator bar. A placed egg shows its direction there for a few seconds every <white><minutes> minutes</white>, listen for the sound.<newline>To take it, be the only player near it and click it <white><clicks></white> times.<newline><white><click:run_command:'/dragonegg off'><hover:show_text:'<gray>Hide the egg from your locator bar'>/dragonegg off</hover></click></white> hides it from your locator bar, <white><click:run_command:'/dragonegg show-zone off'><hover:show_text:'<gray>Hide the zone lines and the text around the egg'>/dragonegg show-zone off</hover></click></white> hides the zone lines around it, e.g. in your build."
+  zone-on: "<gray>Zone display enabled. You see the lines around the egg and its text through walls."
+  zone-off: "<gray>Zone display disabled. You no longer see the lines and the text around the egg, except for a few minutes when someone tries to take it or players fight near it. <white>/dragonegg show-zone on</white> turns it back on."
+  pulse-on: "<gray>Dragon egg pulse enabled."
+  pulse-off: "<gray>Dragon egg pulse disabled. Use <white>/dragonegg on</white> to enable it again."
+  pulse-forced: "<gray>Pulse sent."
+  tp-done: "<gray>Teleported to the dragon egg."
+  pulse-not-placed: "<gray>The egg isn't placed right now, so there's nothing to pulse."
+  where-unknown: "<gray>The egg's location is currently unknown."
+  where-carried: "<gray>The egg is carried by <white><player></white> in <world> at <x>, <y>, <z>."
+  where-placed: "<gray>The egg is placed in <world> at <x>, <y>, <z>."
+  reloaded: "<gray>Dragon Egg Hunt configuration reloaded."
+  usage: "<gray>Usage: <white>/dragonegg on</white> | <white>off</white>, <white>/dragonegg show-zone on</white> | <white>off</white>"
+  players-only: "<red>Only players can use this."
+  no-permission: "<red>You don't have permission to do that."
+  dimensions:
+    normal: "the Overworld"
+    nether: "the Nether"
+    the_end: "the End"
+    custom: "another dimension"

@@ -1,0 +1,51 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.18-SNAPSHOT'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = 'dragon-egg-hunt'
+}
+
+repositories {
+    mavenCentral()
+    // Polymer, Text Placeholder API
+    maven { url 'https://maven.nucleoid.xyz/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Bundled into the mod jar, so the server only needs Fabric API next to it
+    include implementation("eu.pb4:polymer-virtual-entity:${project.polymer_version}")
+    include implementation("eu.pb4:placeholder-api:${project.placeholder_api_version}")
+    include implementation("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
+    include implementation("org.yaml:snakeyaml:${project.snakeyaml_version}")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release.set(25)
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+jar {
+    from('LICENSE')
+}
+
+// Copies every compile dependency (including Minecraft itself) into build/devlibs.
+// Lets the code be compiled and checked outside of Gradle, e.g. by an assistant without access to Maven.
+tasks.register('copyDevLibs', Copy) {
+    from configurations.compileClasspath
+    into layout.buildDirectory.dir('devlibs')
+}
