@@ -159,6 +159,13 @@ public final class DragonEggHunt implements ModInitializer {
         if (active() == null) {
             return;
         }
+        if (server.getPlayerList() == null) {
+            // The server failed before it finished starting (e.g. the port was taken): nobody joined,
+            // nothing was shown, so there is nothing to clean up in the world
+            resourcePacks.stop();
+            this.server = null;
+            return;
+        }
         // Players still online during shutdown leave the egg behind like on a normal logout
         for (ServerPlayer player : List.copyOf(server.getPlayerList().getPlayers())) {
             placeFromPlayer(player);
